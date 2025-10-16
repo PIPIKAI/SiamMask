@@ -266,7 +266,7 @@ def siamese_track(state, im, mask_enable=False, refine_enable=False, device='cpu
             c = -a * bbox[0]
             d = -b * bbox[1]
             mapping = np.array([[a, 0, c],
-                                [0, b, d]]).astype(np.float)
+                                [0, b, d]]).astype(np.float64)
             crop = cv2.warpAffine(image, mapping, (out_sz[0], out_sz[1]),
                                   flags=cv2.INTER_LINEAR,
                                   borderMode=cv2.BORDER_CONSTANT,
@@ -285,7 +285,7 @@ def siamese_track(state, im, mask_enable=False, refine_enable=False, device='cpu
         if cv2.__version__[-5] == '4':
             contours, _ = cv2.findContours(target_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         else:
-            _, contours, _ = cv2.findContours(target_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+            contours, _ = cv2.findContours(target_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
         cnt_area = [cv2.contourArea(cnt) for cnt in contours]
         if len(contours) != 0 and np.max(cnt_area) > 100:
             contour = contours[np.argmax(cnt_area)]  # use max area polygon
@@ -377,7 +377,7 @@ def track_vot(model, video, hp=None, mask_enable=False, refine_enable=False, dev
                 if mask_enable:
                     mask = mask > state['p'].seg_thr
                     im_show[:, :, 2] = mask * 255 + (1 - mask) * im_show[:, :, 2]
-                location_int = np.int0(location)
+                location_int = location.astype(int)
                 cv2.polylines(im_show, [location_int.reshape((-1, 1, 2))], True, (0, 255, 255), 3)
             else:
                 location = [int(l) for l in location]

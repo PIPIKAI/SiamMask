@@ -146,7 +146,7 @@ def tune(param):
             else:
                 cv2.rectangle(im, (gt[f, 0], gt[f, 1]), (gt[f, 0] + gt[f, 2], gt[f, 1] + gt[f, 3]), (0, 255, 0), 3)
             if len(location) == 8:
-                location = np.int0(location)
+                location = location.astype(int)
                 cv2.polylines(im, [location.reshape((-1, 1, 2))], True, (0, 255, 255), 3)
             else:
                 location = [int(l) for l in location]  # bad support for OPENCV

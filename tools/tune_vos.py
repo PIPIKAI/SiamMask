@@ -123,7 +123,7 @@ def tune(param):
                 cv2.rectangle(im_show, (gt[f, 0], gt[f, 1]), (gt[f, 0] + gt[f, 2], gt[f, 1] + gt[f, 3]), (0, 255, 0), 3)
             if len(location) == 8:
                 im_show[:,:,2] = mask*255 + (1-mask)*im_show[:,:,2]
-                cv2.polylines(im_show, [np.int0(location).reshape((-1, 1, 2))], True, (0, 255, 255), 3)
+                cv2.polylines(im_show, [location.astype(int).reshape((-1, 1, 2))], True, (0, 255, 255), 3)
             else:
                 location = [int(l) for l in location]  # bad support for OPENCV
                 cv2.rectangle(im_show, (location[0], location[1]),

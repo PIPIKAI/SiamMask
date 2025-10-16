@@ -57,7 +57,7 @@ if __name__ == '__main__':
             mask = state['mask'] > state['p'].seg_thr
 
             im[:, :, 2] = (mask > 0) * 255 + (mask == 0) * im[:, :, 2]
-            cv2.polylines(im, [np.int0(location).reshape((-1, 1, 2))], True, (0, 255, 0), 3)
+            cv2.polylines(im, [location.astype(int).reshape((-1, 1, 2))], True, (0, 255, 0), 3)
             cv2.imshow('SiamMask', im)
             key = cv2.waitKey(1)
             if key > 0:
